@@ -1,16 +1,19 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import {Button} from "@mantine/core";
+import React, {useState} from "react";
+import SysHeader from "./components/SysHeader";
+import { MantineProvider, ColorSchemeProvider, ColorScheme } from "@mantine/core";
+import {NavbarNested} from "./components/Navbar";
 
 function App() {
+  const [colorScheme, setColorScheme] = useState<ColorScheme>("dark");
+  const toggleColorScheme = (value?: ColorScheme) =>
+    setColorScheme(value || (colorScheme === "dark" ? "light" : "dark"));
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Button>Hello World!</Button>
-      </header>
-    </div>
+    <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
+      <MantineProvider theme={{colorScheme}} withGlobalStyles withNormalizeCSS>
+        <SysHeader />
+        <NavbarNested />
+      </MantineProvider>
+    </ColorSchemeProvider>
   );
 }
 
